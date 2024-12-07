@@ -49,6 +49,8 @@
             this.tbRValue = new System.Windows.Forms.TextBox();
             this.cbIP = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.cbIpv4 = new System.Windows.Forms.CheckBox();
+            this.cbIpv6 = new System.Windows.Forms.CheckBox();
             this.pHeader.SuspendLayout();
             this.pTitleBar.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -186,14 +188,14 @@
             this.btOk.TabIndex = 19;
             this.btOk.Text = "Ok";
             this.btOk.UseVisualStyleBackColor = false;
-            this.btOk.Click += new System.EventHandler(this.btClose_Click);
+            this.btOk.Click += new System.EventHandler(this.btOk_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 128);
+            this.label1.Location = new System.Drawing.Point(7, 128);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 13);
+            this.label1.Size = new System.Drawing.Size(47, 12);
             this.label1.TabIndex = 12;
             this.label1.Text = "Domain:";
             // 
@@ -203,16 +205,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbName.Location = new System.Drawing.Point(68, 125);
             this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(277, 20);
+            this.tbName.Size = new System.Drawing.Size(277, 21);
             this.tbName.TabIndex = 13;
             this.tbName.TextChanged += new System.EventHandler(this.tbName_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 168);
+            this.label2.Location = new System.Drawing.Point(7, 168);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(97, 13);
+            this.label2.Size = new System.Drawing.Size(119, 12);
             this.label2.TabIndex = 14;
             this.label2.Text = "IP resolution mode:";
             // 
@@ -224,7 +226,7 @@
             this.cbResolve.FormattingEnabled = true;
             this.cbResolve.Location = new System.Drawing.Point(119, 165);
             this.cbResolve.Name = "cbResolve";
-            this.cbResolve.Size = new System.Drawing.Size(226, 21);
+            this.cbResolve.Size = new System.Drawing.Size(226, 20);
             this.cbResolve.TabIndex = 15;
             this.cbResolve.SelectedIndexChanged += new System.EventHandler(this.cbResolve_SelectedIndexChanged);
             // 
@@ -233,7 +235,7 @@
             this.lbRModeInfo.AutoSize = true;
             this.lbRModeInfo.Location = new System.Drawing.Point(27, 197);
             this.lbRModeInfo.Name = "lbRModeInfo";
-            this.lbRModeInfo.Size = new System.Drawing.Size(16, 13);
+            this.lbRModeInfo.Size = new System.Drawing.Size(23, 12);
             this.lbRModeInfo.TabIndex = 16;
             this.lbRModeInfo.Text = "...";
             // 
@@ -242,7 +244,7 @@
             this.lbRValue.AutoSize = true;
             this.lbRValue.Location = new System.Drawing.Point(16, 220);
             this.lbRValue.Name = "lbRValue";
-            this.lbRValue.Size = new System.Drawing.Size(16, 13);
+            this.lbRValue.Size = new System.Drawing.Size(23, 12);
             this.lbRValue.TabIndex = 17;
             this.lbRValue.Text = "...";
             // 
@@ -252,7 +254,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbRValue.Location = new System.Drawing.Point(84, 217);
             this.tbRValue.Name = "tbRValue";
-            this.tbRValue.Size = new System.Drawing.Size(261, 20);
+            this.tbRValue.Size = new System.Drawing.Size(261, 21);
             this.tbRValue.TabIndex = 18;
             // 
             // cbIP
@@ -263,17 +265,41 @@
             this.cbIP.FormattingEnabled = true;
             this.cbIP.Location = new System.Drawing.Point(84, 255);
             this.cbIP.Name = "cbIP";
-            this.cbIP.Size = new System.Drawing.Size(261, 21);
+            this.cbIP.Size = new System.Drawing.Size(261, 20);
             this.cbIP.TabIndex = 21;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 258);
+            this.label3.Location = new System.Drawing.Point(7, 258);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 13);
+            this.label3.Size = new System.Drawing.Size(71, 12);
             this.label3.TabIndex = 20;
             this.label3.Text = "Bind to IP:";
+            // 
+            // cbIpv4
+            // 
+            this.cbIpv4.AutoSize = true;
+            this.cbIpv4.Checked = true;
+            this.cbIpv4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbIpv4.Location = new System.Drawing.Point(9, 294);
+            this.cbIpv4.Name = "cbIpv4";
+            this.cbIpv4.Size = new System.Drawing.Size(48, 16);
+            this.cbIpv4.TabIndex = 22;
+            this.cbIpv4.Text = "Ipv4";
+            this.cbIpv4.UseVisualStyleBackColor = true;
+            // 
+            // cbIpv6
+            // 
+            this.cbIpv6.AutoSize = true;
+            this.cbIpv6.Checked = true;
+            this.cbIpv6.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbIpv6.Location = new System.Drawing.Point(63, 294);
+            this.cbIpv6.Name = "cbIpv6";
+            this.cbIpv6.Size = new System.Drawing.Size(48, 16);
+            this.cbIpv6.TabIndex = 23;
+            this.cbIpv6.Text = "Ipv6";
+            this.cbIpv6.UseVisualStyleBackColor = true;
             // 
             // FEditDomain
             // 
@@ -281,6 +307,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(364, 346);
+            this.Controls.Add(this.cbIpv6);
+            this.Controls.Add(this.cbIpv4);
             this.Controls.Add(this.cbIP);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btOk);
@@ -331,5 +359,7 @@
         private System.Windows.Forms.Button btOk;
         private System.Windows.Forms.ComboBox cbIP;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox cbIpv4;
+        private System.Windows.Forms.CheckBox cbIpv6;
     }
 }

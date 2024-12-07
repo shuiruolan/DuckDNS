@@ -77,7 +77,11 @@ namespace DuckDNS
                     default:
                         throw new Exception("Resolution mode not implemented");
                 }
-                if (ipv4 == null && ipv6 == null)
+                if (!d.EnableIpv4)
+                    ipv4 = string.Empty;
+                if (!d.EnableIpv6)
+                    ipv6 = string.Empty;
+                if (string.IsNullOrEmpty(ipv4) && string.IsNullOrEmpty(ipv6))
                 {
                     messages.Add(d.Domain + ": IP resolution failed");
                     return;
@@ -110,13 +114,21 @@ namespace DuckDNS
             }
         }
 
-        private string BuildURL(string domain, string token, string ipv4, string ipv6)
+        private string BuildURL(string domain, string token, string ipv4, string ipv6, bool addClear = false)
         {
             string url = ServiceURL;
             url = url.Replace("<DOM>", domain);
             url = url.Replace("<TKN>", token);
-            url = url.Replace("<IP4>", ipv4);
-            url = url.Replace("<IP6>", ipv6);
+            if (ipv4 == string.Empty)
+                url = url.Replace("&ip=<IP4>", "");
+            else
+                url = url.Replace("<IP4>", ipv4);
+            if (ipv6 == string.Empty)
+                url = url.Replace("&ipv6=<IP6>", "");
+            else
+                url = url.Replace("<IP6>", ipv6);
+            if(addClear)
+                url += "&clear=true";
             return url;
         }
 
@@ -263,6 +275,8 @@ namespace DuckDNS
         public string ResolutionValue { get; set; }
 
         public string BindIP { get; set; }
+        public bool EnableIpv4 { get; set; }
+        public bool EnableIpv6 { get; set; }
     }
 
     enum DDnsResolutionMode
@@ -287,6 +301,8 @@ namespace DuckDNS
                 if (pi.PropertyType == typeof(string))
                     data.Add(pre + pi.Name + ":" + value);
                 else if (pi.PropertyType == typeof(int))
+                    data.Add(pre + pi.Name + ":" + value);
+                else if (pi.PropertyType == typeof(bool))
                     data.Add(pre + pi.Name + ":" + value);
                 else if (pi.PropertyType.IsEnum)
                     data.Add(pre + pi.Name + ":" + value.ToString());
@@ -396,6 +412,8 @@ namespace DuckDNS
                         pi.SetValue(o, value);
                     if (pi.PropertyType == typeof(int))
                         pi.SetValue(o, int.Parse(value));
+                    if (pi.PropertyType == typeof(bool))
+                        pi.SetValue(o, bool.Parse(value));
                     if (pi.PropertyType.IsEnum)
                         pi.SetValue(o, Enum.Parse(pi.PropertyType, value));
                 }

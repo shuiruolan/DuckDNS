@@ -43,6 +43,8 @@ namespace DuckDNS
             tbName.Text = lbName.Text = d.Domain;
             cbResolve.SelectedItem = d.ResolutionMode;
             tbRValue.Text = d.ResolutionValue;
+            cbIpv4.Checked = d.EnableIpv4;
+            cbIpv6.Checked = d.EnableIpv6;
             string ip = d.BindIP;
             if (string.IsNullOrEmpty(ip))
                 cbIP.SelectedIndex = 0;
@@ -58,6 +60,8 @@ namespace DuckDNS
             d.ResolutionMode = (DDnsResolutionMode)cbResolve.SelectedItem;
             d.ResolutionValue = tbRValue.Text;
             d.BindIP = cbIP.SelectedIndex <= 0 ? "" : ((IpInfo)cbIP.SelectedItem).Address;
+            d.EnableIpv4 = cbIpv4.Checked;
+            d.EnableIpv6 = cbIpv6.Checked;
         }
 
         private void LookNFeel()
@@ -125,6 +129,16 @@ namespace DuckDNS
                     tbRValue.Visible = true;
                     break;
             }
+        }
+
+        private void btOk_Click(object sender, EventArgs e)
+        {
+            if (!cbIpv4.Checked && !cbIpv6.Checked)
+            {
+                MessageBox.Show("Select at least one ipv4 or ipv6 address");
+                return;
+            }
+            Close();
         }
     }
 }

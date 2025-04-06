@@ -7,6 +7,8 @@ using System.Net;
 using System.Text;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Net.NetworkInformation;
+using System.Diagnostics;
 
 namespace DuckDNS
 {
@@ -63,7 +65,7 @@ namespace DuckDNS
                         ipv6 = "";
                         break;
                     case DDnsResolutionMode.Local:
-                        getHostIPs(Dns.GetHostName(), out ipv4, out ipv6);
+                        getLocalIPs(out ipv4, out ipv6);
                         break;
                     case DDnsResolutionMode.Fixed:
                         IPset(d.ResolutionValue, out ipv4, out ipv6);
@@ -131,7 +133,34 @@ namespace DuckDNS
                 url += "&clear=true";
             return url;
         }
-
+        private void getLocalIPs(out string ipv4, out string ipv6)
+        {
+            ipv4 = null;
+            ipv6 = null;
+            IPHostEntry heserver = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress curAdd in heserver.AddressList)
+            {
+                if (ipv4 == null && curAdd.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    ipv4 = curAdd.ToString();
+                    break;
+                } 
+            }
+            var ipv6List = new List<UnicastIPAddressInformation>();
+            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+                {  
+                    var curAdd = ip.Address;
+                    if (curAdd.AddressFamily == AddressFamily.InterNetworkV6 && (!curAdd.IsIPv6Multicast) && (!curAdd.IsIPv6LinkLocal) && (!curAdd.IsIPv6SiteLocal) && (!IPAddress.IsLoopback(ip.Address)))
+                        ipv6List.Add(ip);
+                }
+            }
+            if (ipv6List.Count == 0)
+                return;
+            ipv6List.Sort((x, y) => y.AddressPreferredLifetime.CompareTo(x.AddressPreferredLifetime));
+            ipv6 = ipv6List[0].Address.ToString();
+        }
         private void getHostIPs(string host, out string ipv4, out string ipv6)
         {
             ipv4 = null;
